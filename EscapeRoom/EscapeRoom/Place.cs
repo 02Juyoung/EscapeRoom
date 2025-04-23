@@ -15,9 +15,10 @@ namespace EscapeRoom.Place
         private int mapWidth = 30;
         private int mapHeight = 15;
 
-        private CPlayer player;
+        protected CPlayer player;
 
         private CUI ui;
+       
 
         protected List<CFurniture> furnitures { get; private set; }
         protected List<CDoor> doors { get; private set; }
@@ -27,9 +28,10 @@ namespace EscapeRoom.Place
         public CPlace(CUI ui) // 생성자에 ui 객체를 전달받도록 수정
         {
             this.ui = ui;  // ui를 필드에 저장
-
+            
             furnitures = new List<CFurniture>();
             doors = new List<CDoor>();
+            mapItems = new Dictionary<(int, int), CItem>();
 
         }
         public void AddDoor(CDoor door)  // 문을 리스트에 추가
@@ -38,13 +40,21 @@ namespace EscapeRoom.Place
         }
 
         public abstract void InitializeFurniture();
-        
 
-        public void MapItems()
+
+        public abstract void MapItems();
+
+
+        public virtual void DrawRoom()
         {
-          
+            LineFurniture();
+            foreach (var furniture in furnitures)
+            {
+                furniture.Draw();
+            }
         }
 
+        public abstract void LineFurniture();
 
         public void DrawFurniture()
         {
@@ -80,15 +90,11 @@ namespace EscapeRoom.Place
                     }
                 }
             }
-        }
-
-        public CPlayer Player => player;
-
-        public void InitPlayer()
-        {
-            player = new CPlayer(14, 7, mapWidth, mapHeight, this);
             player.Draw();
         }
+
+
+        public CPlayer Player => player;     
 
         public bool IsMovable(int newX, int newY) //플레이어가 이동할 수 있는 곳인지 확인
         {
@@ -136,8 +142,7 @@ namespace EscapeRoom.Place
                 player.Clear();
                 player.X = newX;
                 player.Y = newY;
-
-                Carpet();
+          
                 player.Draw();
                 
             }
@@ -150,8 +155,7 @@ namespace EscapeRoom.Place
                     if (door.CheckDoor(player.X, player.Y))
                     {
                         if (door.Open(player, ui))
-                        {
-                            //Ckitchen으로 이동
+                        {                           
                             return true;
                         }
                         
@@ -175,7 +179,7 @@ namespace EscapeRoom.Place
                     if (!item.Name.Contains("힌트"))
                     {
                         player.Inventory.AddItem(item);
-                        ui.ShowMessage($"{item.Name}를 획득했습니다!              ",3);
+                        ui.ShowMessage($"{item.Name}을(를) 획득했습니다!              ",3);
                         mapItems.Remove((newX, newY));  // 아이템 제거
                     }
                     

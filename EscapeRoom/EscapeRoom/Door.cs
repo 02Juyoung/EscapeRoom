@@ -11,10 +11,16 @@ namespace EscapeRoom.Door
 
         public bool IsLocked { get; private set; } = true;
         public (int x1, int y1, int x2, int y2) DoorPosition { get; private set; }
-        public CDoor(int x1, int y1, int x2, int y2)
+
+        public string DoorName { get; private set; }
+
+
+        public CDoor(int x1, int y1, int x2, int y2, string doorName)
         {
             DoorPosition = (x1, y1, x2, y2);
-            
+            DoorName = doorName;
+            IsLocked = true;
+
         }
 
         public bool CheckDoor(int x, int y)

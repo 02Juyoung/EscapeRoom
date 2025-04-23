@@ -1,7 +1,9 @@
 ﻿
 using EscapeRoom.Kitchen;
+using EscapeRoom.LivingRoom;
 using EscapeRoom.Place;
 using EscapeRoom.UI;
+using EscapeRoom.Player;
 
 namespace EscapeRoom
 {
@@ -15,19 +17,23 @@ namespace EscapeRoom
             Console.CursorVisible = false;
 
             CUI ui = new CUI();
-            
-            CPlace place = new CPlace(ui);
-           
+            CLivingRoom livingRoom = new CLivingRoom(ui);
+            CKitchen kitchen = new CKitchen(ui);
 
-            place.InitPlayer();
-    
+            CPlace place = livingRoom;
+
+            livingRoom.InitializeFurniture();
+            livingRoom.MapItems();
+
+            kitchen.InitializeFurniture();
+            kitchen.MapItems();
+
+            place.DrawRoom();
+            place.Player.PlayerPosition("LivingRoomDoor");
 
             ui.ShowPlayerPosition(place.Player.X, place.Player.Y);
 
-            place.InitializeFurniture();
-            place.Carpet();
-            place.MapItems();
-
+            
 
             bool isRunning = true;
 
@@ -36,6 +42,7 @@ namespace EscapeRoom
                 if (Console.KeyAvailable)
                 {
                     ConsoleKey key = Console.ReadKey(true).Key;
+
                     bool changedRoom = place.MovePlayer(key);
 
                     ui.ShowPlayerPosition(place.Player.X, place.Player.Y);
@@ -43,15 +50,27 @@ namespace EscapeRoom
 
                     if (changedRoom)
                     {
-                        Console.Clear();
-                        ui.ShowMessage("주방으로 이동합니다...", 3);
-                        Thread.Sleep(1000);
+                        ui.ClearPlace();
 
-                        // 여기서 CPlace 대신 CKitchen 같은 걸로 교체 가능
-                        CKitchen kitchen = new CKitchen(ui, place.Player);
-                        Console.Clear();
-                        kitchen.DrawRoom();
+                        // 문을 통해 방을 이동했을 때
+                        string doorName = string.Empty;
+
+                        if (place == livingRoom)
+                        {
+                            place = kitchen;
+                            doorName = "KitchenDoor";
+                        }
+                        else if (place == kitchen)
+                        {
+                            place = livingRoom;
+                            doorName = "LivingRoomDoor";
+                        }
+
+                     
+                        place.DrawRoom();
+                        place.Player.PlayerPosition(doorName);  
                     }
+
 
 
                 }

@@ -9,20 +9,14 @@ using EscapeRoom.Place;
 namespace EscapeRoom.LivingRoom
 {
     public class CLivingRoom : CPlace
-    {
-        private CUI ui;
-        private List<CFurniture> furnitures;
+    {  
+        public CLivingRoom(CUI ui, string doorName = "") : base(ui)
+        {        
+            
 
-
-        public CLivingRoom(CUI ui)
-        {
-            this.ui = ui;
-            furnitures = new List<CFurniture>();
-
-            InitializeFurniture();
         }
 
-        public void InitializeFurniture()
+        public override void InitializeFurniture()
         {
             // 서랍장 생성
             var drawer = new CFurniture("서랍장");
@@ -80,20 +74,21 @@ namespace EscapeRoom.LivingRoom
             furnitures.Add(carlendar);
 
             //주방 문 생성
-            var kitchenDoor = new CDoor(0, 6, 0, 9);
+            var kitchenDoor = new CDoor(0, 6, 0, 9,"KitchenDoor");
             AddDoor(kitchenDoor);
 
 
         }
 
-        public void MapItems()
+        public override void MapItems()
         {
             // (9, 9) 위치에 열쇠 아이템 추가
             var keyItem = new CItem("열쇠", 1);
             mapItems[(9, 9)] = keyItem;
         }
-        public void Carpet()
+        public override void LineFurniture()
         {
+            //카펫
             //상단 경계
             for (int x = 7; x <= 21; x++)
             {
@@ -123,11 +118,29 @@ namespace EscapeRoom.LivingRoom
             }
 
         }
-        public void DrawRoom()
+      
+
+        public override void DrawRoom()
         {
-            foreach (var furniture in furnitures)
+            base.DrawRoom();
+            foreach (var door in doors)
             {
-                furniture.Draw();
+                for (int y = door.DoorPosition.y1; y <= door.DoorPosition.y2; y++)
+                {
+                    for (int x = door.DoorPosition.x1; x <= door.DoorPosition.x2; x++)
+                    {
+                        Console.SetCursorPosition(x, y);
+                        
+                        if (door.IsLocked)
+                        {
+                            Console.Write("■");  // 잠긴 문
+                        }
+                        else
+                        {
+                            Console.Write("▒");  // 열린 문
+                        }
+                    }
+                }
             }
         }
 

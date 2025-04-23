@@ -38,6 +38,7 @@ namespace EscapeRoom.Player
         {
             Console.SetCursorPosition(X, Y);
             Console.Write("  ");
+            place.LineFurniture();
         }
         public void Move(ConsoleKey key)
         {
@@ -69,9 +70,22 @@ namespace EscapeRoom.Player
                 X = newX;
                 Y = newY;
                 Draw();
-
-                place.Carpet();
+               
             }
+        }
+        
+        public void InitPlayer(string doorName)
+        {
+            (X, Y) = PlayerPosition(doorName); // doorName에 맞는 위치로 초기화
+            Draw();
+        }
+        public (int X, int Y) PlayerPosition(string doorName)
+        {
+            if (doorName == "LivingRoomDoor")
+                return (29, 7);  
+            if (doorName == "KitchenDoor")
+                return (0, 7);  
+            return (14, 7);    
         }
     }
 }

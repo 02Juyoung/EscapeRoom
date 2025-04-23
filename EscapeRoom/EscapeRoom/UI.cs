@@ -88,5 +88,17 @@ namespace EscapeRoom.UI
                 Console.Write(new string(' ', uiWidth));
             }
         }
+
+        public void ClearPlace() //Place 부분만 지우기
+        {
+            for (int y = 0; y < 15; y++)
+            {
+                Console.SetCursorPosition(0, y);
+                Console.Write(new string(' ', 31));
+            }
+        }
+
+
+
     }
 }
