@@ -15,7 +15,7 @@ namespace EscapeRoom.Place
         private int mapWidth = 30;
         private int mapHeight = 15;
 
-        protected CPlayer player;
+        public CPlayer player;
 
         private CUI ui;
        
@@ -25,10 +25,10 @@ namespace EscapeRoom.Place
         protected Dictionary<(int, int), CItem> mapItems { get; private set; }
 
 
-        public CPlace(CUI ui) // 생성자에 ui 객체를 전달받도록 수정
+        public CPlace(CUI ui, CPlayer player) // 생성자에 ui 객체를 전달받도록 수정
         {
             this.ui = ui;  // ui를 필드에 저장
-            
+            this.player = player;
             furnitures = new List<CFurniture>();
             doors = new List<CDoor>();
             mapItems = new Dictionary<(int, int), CItem>();
@@ -154,7 +154,7 @@ namespace EscapeRoom.Place
                 {
                     if (door.CheckDoor(player.X, player.Y))
                     {
-                        if (door.Open(player, ui))
+                        if (door.Open(player.Inventory, ui))
                         {                           
                             return true;
                         }
@@ -168,7 +168,7 @@ namespace EscapeRoom.Place
             {
                 if (key == ConsoleKey.Spacebar && furniture.CanInteract(newX, newY)) // 스페이스바 눌렀을 때 상호작용
                 {
-                    furniture.InteractionFurniture(player, ui); // 가구와 상호작용
+                    furniture.InteractionFurniture(player.Inventory, ui); // 가구와 상호작용
                 }
             }
 
@@ -200,7 +200,30 @@ namespace EscapeRoom.Place
             }
             return null;
         }
-   
+
+        
+
+        public void InitPlayer(string doorName)
+        {
+            switch (doorName)
+            {
+                case "LivingRoomDoor":
+                    Player.X = 0;
+                    Player.Y = 7;
+                    break;
+
+                case "KitchenDoor":
+                    Player.X = 29;
+                    Player.Y = 7;
+                    break;
+
+               
+            }
+            Player.Draw();
+        }
+
+        
+
 
     }
 }

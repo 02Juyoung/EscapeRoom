@@ -5,13 +5,14 @@ using EscapeRoom.Furniture;
 using EscapeRoom.Item;
 using EscapeRoom.UI;
 using EscapeRoom.Place;
+using EscapeRoom.Player;
 
 namespace EscapeRoom.LivingRoom
 {
     public class CLivingRoom : CPlace
     {  
-        public CLivingRoom(CUI ui, string doorName = "") : base(ui)
-        {        
+        public CLivingRoom(CUI ui, CPlayer player) : base(ui, player)
+        {
             
 
         }
@@ -143,6 +144,7 @@ namespace EscapeRoom.LivingRoom
                 }
             }
         }
+       
 
     }
 }

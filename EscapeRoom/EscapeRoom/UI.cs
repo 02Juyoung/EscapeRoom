@@ -24,9 +24,7 @@ namespace EscapeRoom.UI
             if (message.Length > uiWidth)
             {
                 message = message.Substring(0, uiWidth);
-            }                                // 35보다 길면 잘라내기
-
-            string paddedMessage = message.PadRight(uiWidth);
+            }                                // 35보다 길면 잘라내기       
 
             Console.SetCursorPosition(startX, line);
             Console.Write(message);   // 너비 맞춰서 출력

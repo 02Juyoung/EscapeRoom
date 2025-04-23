@@ -12,7 +12,7 @@ namespace EscapeRoom.Kitchen
     public class CKitchen : CPlace
     {
         
-        public CKitchen(CUI ui, string doorName = "") : base(ui)
+        public CKitchen(CUI ui, CPlayer player) : base(ui, player)
         {
             
         }
@@ -135,9 +135,7 @@ namespace EscapeRoom.Kitchen
                 furniture.Draw();
             }
             
-        }
-
-        
+        }       
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using EscapeRoom.Inventory;
 using EscapeRoom.Item;
 using EscapeRoom.Player;
 using EscapeRoom.UI;
@@ -65,7 +66,7 @@ namespace EscapeRoom.Furniture
 
         }
 
-        public void InteractionFurniture(CPlayer player, CUI ui)
+        public void InteractionFurniture(CInventory inventory, CUI ui)
         {
             string message = $"{Name} 확인\n";
             for (int i = 0; i < Items.Count; i++)
@@ -94,7 +95,7 @@ namespace EscapeRoom.Furniture
                     else
                     {
                         // 아이템을 인벤토리에 추가하고, 해당 아이템을 가구에서 제거
-                        player.Inventory.AddItem(selectedItem);
+                        inventory.AddItem(selectedItem);
                         Items.Remove(selectedItem);
 
                         ui.InteractionMsg($"{selectedItem.Name}를 챙겼다.");

@@ -10,8 +10,8 @@ namespace EscapeRoom.Player
         public int X { get; set; }
         public int Y { get; set; }
 
-        private int maxX;
-        private int maxY;
+        public int maxX;
+        public int maxY;
 
         private CPlace place;
 
@@ -19,14 +19,15 @@ namespace EscapeRoom.Player
         public CInventory Inventory { get; private set; }
 
 
-        public CPlayer(int startX, int startY, int maxX, int maxY, CPlace place)
+        public CPlayer(int startX, int startY, int maxX, int maxY)
         {
             X = startX;
             Y = startY;
             this.maxX = maxX;
             this.maxY = maxY;
-            this.place = place;
+            
             Inventory = new CInventory();
+
         }
         public void Draw()
         {
@@ -74,18 +75,5 @@ namespace EscapeRoom.Player
             }
         }
         
-        public void InitPlayer(string doorName)
-        {
-            (X, Y) = PlayerPosition(doorName); // doorName에 맞는 위치로 초기화
-            Draw();
-        }
-        public (int X, int Y) PlayerPosition(string doorName)
-        {
-            if (doorName == "LivingRoomDoor")
-                return (29, 7);  
-            if (doorName == "KitchenDoor")
-                return (0, 7);  
-            return (14, 7);    
-        }
     }
 }

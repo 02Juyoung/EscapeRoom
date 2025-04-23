@@ -4,6 +4,7 @@ using EscapeRoom.LivingRoom;
 using EscapeRoom.Place;
 using EscapeRoom.UI;
 using EscapeRoom.Player;
+using EscapeRoom.Inventory;
 
 namespace EscapeRoom
 {
@@ -17,9 +18,9 @@ namespace EscapeRoom
             Console.CursorVisible = false;
 
             CUI ui = new CUI();
-            CLivingRoom livingRoom = new CLivingRoom(ui);
-            CKitchen kitchen = new CKitchen(ui);
-
+            CPlayer player = new CPlayer(14, 7, 30, 15);
+            CPlace livingRoom = new CLivingRoom(ui, player);
+            CPlace kitchen = new CKitchen(ui, player);
             CPlace place = livingRoom;
 
             livingRoom.InitializeFurniture();
@@ -28,12 +29,15 @@ namespace EscapeRoom
             kitchen.InitializeFurniture();
             kitchen.MapItems();
 
+            CInventory inventory = new CInventory();
+
             place.DrawRoom();
-            place.Player.PlayerPosition("LivingRoomDoor");
+
+            
+            place.Player.Draw();
 
             ui.ShowPlayerPosition(place.Player.X, place.Player.Y);
 
-            
 
             bool isRunning = true;
 
@@ -68,22 +72,17 @@ namespace EscapeRoom
 
                      
                         place.DrawRoom();
-                        place.Player.PlayerPosition(doorName);  
+                        place.InitPlayer(doorName);
+
+                        
                     }
 
-
-
                 }
-
                 place.DrawFurniture();  // 가구 및 상호작용
-                ui.ShowInventory(place.Player.Inventory); //인벤토리 표시
-
+                ui.ShowInventory(inventory); //인벤토리 출력
                 Thread.Sleep(50);
             }
-
-         
-
-
+                   
         }
     }
 }

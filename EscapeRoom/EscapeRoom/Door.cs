@@ -1,5 +1,6 @@
 ﻿
 
+using EscapeRoom.Inventory;
 using EscapeRoom.Player;
 using EscapeRoom.UI;
 
@@ -43,15 +44,15 @@ namespace EscapeRoom.Door
             IsLocked = false;
         }
 
-        public bool Open(CPlayer player, CUI ui)
+        public bool Open(CInventory inventory, CUI ui)
         {
             if(!IsLocked)
             {
                 return true;
             }
-            if(player.Inventory.CheckItem("열쇠"))
+            if(inventory.CheckItem("열쇠"))
             {
-                player.Inventory.RemoveItem("열쇠");
+                inventory.RemoveItem("열쇠");
                 IsLocked = false;
                 ui.InteractionMsg("문이 열렸다.");
                 return true;
