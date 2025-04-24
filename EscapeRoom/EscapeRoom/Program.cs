@@ -39,7 +39,6 @@ namespace EscapeRoom
 
 
             place.Player.Draw();
-            
 
             ui.ShowPlayerPosition(place.Player.X, place.Player.Y);
 
@@ -61,7 +60,7 @@ namespace EscapeRoom
                         Thread.Sleep(500);
                         Console.Clear();
                         Console.SetCursorPosition(10, 7);
-                        Console.WriteLine("탈출에 성공했습니다!");
+                        Console.WriteLine(". * ★ 탈출에 성공했습니다! ★ * .");
                         Thread.Sleep(2000);
                         isRunning = false;
                         continue;

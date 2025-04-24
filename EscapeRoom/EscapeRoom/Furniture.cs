@@ -59,6 +59,10 @@ namespace EscapeRoom.Furniture
                 Items.Add(new CItem("출구 열쇠", 1));
                 Items.Add(new CItem("정체불명의 알약", 2));
             }
+            else if (name == "식탁")
+            {
+                Items.Add(new CItem("-쪽지가 있다", 1, "┼ ↓ 2 ← 6 무슨 뜻이지?"));
+            }
 
 
         }
@@ -106,7 +110,11 @@ namespace EscapeRoom.Furniture
             {
                 return playerX <= 23 && playerX >= 15 && playerY <= 3;
             }
-            return false;
+            else if (Name == "식탁")
+            {
+                return playerX >=10 && playerX <= 24 && playerY >= 5 && playerY <= 9; 
+            }
+                return false;
             
         }
 

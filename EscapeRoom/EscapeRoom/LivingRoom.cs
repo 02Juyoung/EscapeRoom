@@ -94,28 +94,28 @@ namespace EscapeRoom.LivingRoom
             for (int x = 7; x <= 21; x++)
             {
                 Console.SetCursorPosition(x, 5);  // (7, 5) 위치부터 시작
-                Console.Write("_");
+                Console.Write("#");
             }
 
             // 하단 경계
             for (int x = 7; x <= 21; x++)
             {
                 Console.SetCursorPosition(x, 10);  // (7, 10) 위치
-                Console.Write("_");
+                Console.Write("#");
             }
 
             // 좌측 경계
             for (int y = 6; y <= 10; y++)  // (6, 9)까지 세로
             {
                 Console.SetCursorPosition(7, y);  // (7, 6) ~ (7, 9)
-                Console.Write("|");
+                Console.Write("#");
             }
 
             // 우측 경계
             for (int y = 6; y <= 10; y++)  // (6, 9)까지 세로
             {
                 Console.SetCursorPosition(21, y);  // (21, 6) ~ (21, 9)
-                Console.Write("|");
+                Console.Write("#");
             }
 
         }
@@ -124,16 +124,10 @@ namespace EscapeRoom.LivingRoom
         public override void DrawRoom()
         {
             base.DrawRoom();
-            foreach (var door in doors)
+
+            foreach (var furniture in furnitures)
             {
-                for (int y = door.DoorPosition.y1; y <= door.DoorPosition.y2; y++)
-                {
-                    for (int x = door.DoorPosition.x1; x <= door.DoorPosition.x2; x++)
-                    {
-                        Console.SetCursorPosition(x, y);
-                                              
-                    }
-                }
+                furniture.Draw();
             }
         }
        

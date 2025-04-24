@@ -10,7 +10,6 @@ namespace EscapeRoom.UI
         private int startX = 33; //UI가 시작될 좌표
         private int uiWidth = 50;
         private int uiHeight = 20;
-        private string systemMessage = "";
 
         public void DrawFrame()
         {
@@ -18,26 +17,22 @@ namespace EscapeRoom.UI
             {
                 Console.SetCursorPosition(startX-1, y);
                 Console.Write("|");
-                Console.SetCursorPosition(0, 16);
-                Console.Write("──────────────────────────────");
+                Console.SetCursorPosition(0, 16);                
             }
+            Console.Write("──────────────────────────────");
         }
         public void ShowMessage(string message, int line)
         {
-            if (message.Length > uiWidth)
-            {
-                message = message.Substring(0, uiWidth);
-            }                                // 35보다 길면 잘라내기       
 
             Console.SetCursorPosition(startX, line);
-            Console.Write(message);   // 너비 맞춰서 출력
+            Console.Write(message);
         }
 
         public void ShowSystemMessage()
         {
             ShowMessage("[System Message]", 0);
-        }
 
+        }
        
         public void ShowPlayerPosition(int x, int y)
         {
@@ -98,8 +93,6 @@ namespace EscapeRoom.UI
                 Console.Write(new string(' ', 31));
             }
         }
-
-
 
     }
 }
