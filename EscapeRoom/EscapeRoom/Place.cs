@@ -25,6 +25,7 @@ namespace EscapeRoom.Place
         protected Dictionary<(int, int), CItem> mapItems { get; private set; }
 
 
+
         public CPlace(CUI ui, CPlayer player) // 생성자에 ui 객체를 전달받도록 수정
         {
             this.ui = ui;  // ui를 필드에 저장
@@ -55,6 +56,11 @@ namespace EscapeRoom.Place
         }
 
         public abstract void LineFurniture();
+        public void DrawLine(CPlayer player)
+        {
+            player.Clear();
+            LineFurniture();
+        }
 
         public void DrawFurniture()
         {
@@ -117,7 +123,7 @@ namespace EscapeRoom.Place
             return true;
         }
 
-        public bool MovePlayer(ConsoleKey key) //플레이어 이동 제한
+        public (bool roomChanged, bool isExitOpened) MovePlayer(ConsoleKey key) //플레이어 이동 제한
         {
             int newX = player.X;
             int newY = player.Y;
@@ -155,10 +161,12 @@ namespace EscapeRoom.Place
                     if (door.CheckDoor(player.X, player.Y))
                     {
                         if (door.Open(player.Inventory, ui))
-                        {                           
-                            return true;
+                        {
+                            if (door.DoorName == "출구")
+                                return (false, true); // ✅ 출구 문 열림
+
+                            return (true, false); // 🚪 일반 문 열림
                         }
-                        
                     }
                 }
             }
@@ -179,15 +187,16 @@ namespace EscapeRoom.Place
                     if (!item.Name.Contains("힌트"))
                     {
                         player.Inventory.AddItem(item);
-                        ui.ShowMessage($"{item.Name}을(를) 획득했습니다!              ",3);
+                        ui.ShowMessage($"{item.Name}을(를) 획득했습니다!                               ",4);
                         mapItems.Remove((newX, newY));  // 아이템 제거
+                        ui.ShowInventory(player.Inventory);
                     }
                     
 
                 }
             }
-            return false;
-            
+            return (false, false);
+
         }
         public CFurniture CheckFurniturePosition()
         {
@@ -207,12 +216,12 @@ namespace EscapeRoom.Place
         {
             switch (doorName)
             {
-                case "LivingRoomDoor":
+                case "거실 문":
                     Player.X = 0;
                     Player.Y = 7;
                     break;
 
-                case "KitchenDoor":
+                case "주방 문":
                     Player.X = 29;
                     Player.Y = 7;
                     break;

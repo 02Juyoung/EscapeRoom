@@ -5,6 +5,7 @@ using EscapeRoom.Place;
 using EscapeRoom.UI;
 using EscapeRoom.Player;
 using EscapeRoom.Inventory;
+using EscapeRoom.Door;
 
 namespace EscapeRoom
 {
@@ -30,11 +31,15 @@ namespace EscapeRoom
             kitchen.MapItems();
 
             CInventory inventory = new CInventory();
+            ui.ShowInventory(inventory);
 
             place.DrawRoom();
+            ui.DrawFrame();
+            ui.ShowSystemMessage();
 
-            
+
             place.Player.Draw();
+            
 
             ui.ShowPlayerPosition(place.Player.X, place.Player.Y);
 
@@ -47,40 +52,52 @@ namespace EscapeRoom
                 {
                     ConsoleKey key = Console.ReadKey(true).Key;
 
-                    bool changedRoom = place.MovePlayer(key);
+                    var result = place.MovePlayer(key);
 
                     ui.ShowPlayerPosition(place.Player.X, place.Player.Y);
-                    ui.ShowSystemMessage();  // 시스템 메시지 업데이트
 
-                    if (changedRoom)
+                    if (result.isExitOpened)
+                    {
+                        Thread.Sleep(500);
+                        Console.Clear();
+                        Console.SetCursorPosition(10, 7);
+                        Console.WriteLine("탈출에 성공했습니다!");
+                        Thread.Sleep(2000);
+                        isRunning = false;
+                        continue;
+                    }
+
+                    if (result.roomChanged)
                     {
                         ui.ClearPlace();
+                        ui.InteractionMsg("이동 중...");
+                        Thread.Sleep(500);
+                        ui.InteractionMsg("            ");
 
-                        // 문을 통해 방을 이동했을 때
-                        string doorName = string.Empty;
+                        string doorName = "";
 
                         if (place == livingRoom)
                         {
                             place = kitchen;
-                            doorName = "KitchenDoor";
+                            doorName = "주방 문";
                         }
                         else if (place == kitchen)
                         {
                             place = livingRoom;
-                            doorName = "LivingRoomDoor";
+                            doorName = "거실 문";
                         }
 
-                     
                         place.DrawRoom();
                         place.InitPlayer(doorName);
-
-                        
                     }
 
+                    place.DrawLine(player);
                 }
-                place.DrawFurniture();  // 가구 및 상호작용
-                ui.ShowInventory(inventory); //인벤토리 출력
+
+                place.DrawFurniture();
                 Thread.Sleep(50);
+
+
             }
                    
         }

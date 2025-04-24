@@ -71,20 +71,20 @@ namespace EscapeRoom.Kitchen
             }
             furnitures.Add(tv);
 
-            //안방 문 생성
-            var bedroomDoor = new CDoor(0, 6, 0, 9,"BedRoomDoor");
-            AddDoor(bedroomDoor);
+            //안방 문 생성 //지금은 출구 문으로 쓸 예정
+            var exit = new CDoor(0, 6, 0, 9,"출구");
+            AddDoor(exit);
 
             //거실 문 생성
-            var livingroomDoor = new CDoor(29, 6, 29, 9, "LivingRoomDoor");
+            var livingroomDoor = new CDoor(29, 6, 29, 9, "거실 문");
             livingroomDoor.Unlock();
             AddDoor(livingroomDoor);
         }
         public override void MapItems()
         {
             // 예시: 부엌에 아이템 추가
-            var knife = new CItem("칼", 1);
-            mapItems[(0, 4)] = knife;
+            var exitKey = new CItem("출구 열쇠", 1);
+            mapItems[(0, 4)] = exitKey;
         }
 
         public override void LineFurniture()

@@ -29,17 +29,22 @@ namespace EscapeRoom.Player
             Inventory = new CInventory();
 
         }
+
+        
+
         public void Draw()
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.SetCursorPosition(X, Y);
             Console.Write('▣');
+            Console.ResetColor();
         }
 
         public void Clear()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write("  ");
-            place.LineFurniture();
+                          
         }
         public void Move(ConsoleKey key)
         {

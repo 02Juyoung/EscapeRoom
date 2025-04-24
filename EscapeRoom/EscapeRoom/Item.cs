@@ -8,6 +8,7 @@ namespace EscapeRoom.Item
         public int Number { get; set; }
         public int Quantity { get; set; }
         public string HintMessage { get; set; }
+        public bool IsUsed { get; set; } = false;
 
         public CItem(string name, int number, string hintMsg = "")
         {         

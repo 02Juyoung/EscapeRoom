@@ -1,12 +1,13 @@
 ﻿
 
+using System;
 using EscapeRoom.Inventory;
 
 namespace EscapeRoom.UI
 {
     public class CUI
     {
-        private int startX = 32; //UI가 시작될 좌표
+        private int startX = 33; //UI가 시작될 좌표
         private int uiWidth = 50;
         private int uiHeight = 20;
         private string systemMessage = "";
@@ -17,6 +18,8 @@ namespace EscapeRoom.UI
             {
                 Console.SetCursorPosition(startX-1, y);
                 Console.Write("|");
+                Console.SetCursorPosition(0, 16);
+                Console.Write("──────────────────────────────");
             }
         }
         public void ShowMessage(string message, int line)
@@ -38,18 +41,18 @@ namespace EscapeRoom.UI
        
         public void ShowPlayerPosition(int x, int y)
         {
-            ShowMessage($"플레이어 위치: ({x}, {y})      ", 1);
+            ShowMessage($"플레이어 위치: ({x}, {y})      ", 2);
         }
 
         public void InteractionMsg(string message) // 상호작용 메세지
         {
-            for (int i = 3; i < uiHeight; i++)
+            for (int i = 4; i < uiHeight; i++)
             {
                 ShowMessage(new string(' ', uiWidth), i);  // 공백으로 덮기
             }
 
             string[] lines = message.Split('\n');
-            int lineOffset = 3;
+            int lineOffset = 4;
 
             for (int i = 0; i < lines.Length && i + lineOffset < uiHeight; i++)
             {
@@ -59,7 +62,7 @@ namespace EscapeRoom.UI
 
         public void ShowInventory(CInventory inventory)
         {
-            int startY = 16;
+            int startY = 17;
             int maxLines = uiHeight - startY;
 
             // 출력 클리어

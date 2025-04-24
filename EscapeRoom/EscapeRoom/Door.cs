@@ -47,19 +47,23 @@ namespace EscapeRoom.Door
         public bool Open(CInventory inventory, CUI ui)
         {
             if(!IsLocked)
-            {
+            {               
                 return true;
             }
-            if(inventory.CheckItem("열쇠"))
+            
+
+            if (inventory.CheckItem($"{DoorName} 열쇠"))
             {
-                inventory.RemoveItem("열쇠");
+                inventory.RemoveItem($"{DoorName} 열쇠");
+                ui.ShowInventory(inventory);
                 IsLocked = false;
                 ui.InteractionMsg("문이 열렸다.");
                 return true;
+
             }           
             else
             {
-                ui.InteractionMsg("문이 잠겨 있다. 열쇠가 필요합니다.");
+                ui.InteractionMsg($"{DoorName}이 잠겨 있다. 열쇠가 필요하다.");
                 return false;
             }
         }
